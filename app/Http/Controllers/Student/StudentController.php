@@ -90,6 +90,7 @@ class StudentController extends Controller
             'class_name' => $class->name,
             'unit' => $class->unit->name,
             'system' => $class->system->name,
+            'students' => $class->students
         ]);
     }
 
@@ -338,7 +339,7 @@ class StudentController extends Controller
             'status' => "Vắng",
         ];
 
-        if(StudentAttendance::create($data_student_attendance)){
+        if (StudentAttendance::create($data_student_attendance)) {
             return response()->json([
                 "message" => "Thêm điểm danh thành công",
             ]);
@@ -391,8 +392,7 @@ class StudentController extends Controller
                     'message' => 'Điểm danh thất bại',
                 ], 422);
             }
-            
-        } else if($type == 'end_time'){
+        } else if ($type == 'end_time') {
             $data_attendance_time = [
                 'student_attendance_id' => $student_attendance_id,
                 'day' => $day,
@@ -423,10 +423,54 @@ class StudentController extends Controller
         $class_code = $request->class_code;
         $user = Auth::user();
         $student = $user->students[0];
+        $attendances = StudentsClasses::where('class_code', $class_code)
+            ->where('student_code', $student->student_code)
+            ->first()->student_attendances;
+        if ($attendances->isEmpty()) {
+            return response()->json([
+                "message" => "Không tồn tại điểm danh",
+            ], 404);
+        }
+        $data = [];
+        foreach ($attendances as $attendance) {
+            $data[] = [
+                'id' => $attendance->id,
+                'day' => $attendance->day,
+                'status' => $attendance->status,
+                'start_time' => $attendance->attendance_times->where('type', 'start_time')->first()->time ?? null,
+                'end_time' => $attendance->attendance_times->where('type', 'end_time')->first()->time ?? null,
+            ];
+        }
+        return response()->json([
+            "attendances" => $data,
+        ], 200);
+    }
+
+    function showAttendanceByDay(Request $request)
+    {
+        $class_code = $request->class_code;
+        $day = $request->day ? $request->day : Carbon::today()->toDateString();
+        $user = Auth::user();
+        $student = $user->students[0];
         $attendance = StudentsClasses::where('class_code', $class_code)
             ->where('student_code', $student->student_code)
-            ->first()->attendances;
-
-        return response()->json($attendance);
+            ->first()->student_attendances;
+        if ($attendance->isEmpty()) {
+            return response()->json([
+                "message" => "Không tồn tại điểm danh",
+            ], 404);
+        }
+        $data = [];
+        $attendance_by_day = $attendance->where('day', $day)->first();
+        $data[] = [
+            'id' => $attendance_by_day->id,
+            'day' => $attendance_by_day->day,
+            'status' => $attendance_by_day->status,
+            'start_time' => $attendance_by_day->attendance_times->where('type', 'start_time')->first()->time ?? null,
+            'end_time' => $attendance_by_day->attendance_times->where('type', 'end_time')->first()->time ?? null,
+        ];
+        return response()->json([
+            "attendances" => $data,
+        ], 200);
     }
 }

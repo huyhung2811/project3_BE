@@ -48,6 +48,7 @@ Route::prefix('student')->middleware(['auth:api','checkrole:student'])->group(fu
         Route::post('/create-day-attendance', 'createDayAttendance')->name('student.attendance.create_day_attendance');
         Route::put('/attendance', 'storeAttendance')->name('student.attendance.store');
         Route::post('/attendance', 'showAttendance')->name('student.attendance.show');
+        Route::post('/attendance-by-day', 'showAttendanceByDay')->name('student.attendance.show_by_day');
     });
 });
 
@@ -73,6 +74,7 @@ Route::prefix('search')->middleware('auth:api')->controller(SearchController::cl
 
 Route::controller(AttendanceController::class)->prefix('attendance')->middleware('auth:api')->group(function(){
     Route::post('/','showClassAttendance')->name('class.attendance.show');
+    Route::post('/update','updateStudentAttendance')->name('student.update.attendance');
 });
 
 

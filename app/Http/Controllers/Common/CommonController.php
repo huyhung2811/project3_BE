@@ -59,14 +59,14 @@ class CommonController extends Controller
             'semester' => $course_class[0]->semester->semester,
             'education_format' => $course_class[0]->education_format,
             'teacher_name' => $course_class[0]->teacher->name,
-            'description' => $course_class[0]->description,
             'school_day' => $course_class[0]->school_day,
             'start_time' => $course_class[0]->start_time,
             'end_time' => $course_class[0]->end_time,
             'room' => $course_class[0]->room,
             'students' => $students,
             'students_number' => $course_class[0]->students->count(),
-            'number_of_absenses' => -1
+            'number_of_absenses' => -1,
+            'description' => $course_class[0]->description,
         ];
 
         if ($user->role == 'student' && $course_class[0]->students->contains('student_code', $user->students[0]->student_code)) {
@@ -117,7 +117,7 @@ class CommonController extends Controller
             'address' => $student->address,
             'email' => $student->email,
             'avatar' => $student->avatar == null || $student->avatar == '' ? asset('assets/images/default_avatar.jpg') : $student->avatar,
-            'class' => $class->name,
+            'class_name' => $class->name,
             'system' => $system->name,
             'unit' => $unit->name
         ];
