@@ -83,7 +83,7 @@ class CommonController extends Controller
         return response()->json(
             $result,
         );
-    }
+    }   
 
     public function showCourseClassStudents(Request $request)
     {

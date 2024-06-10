@@ -62,9 +62,9 @@ class StudentController extends Controller
             $classes[] = [
                 'class_code' => $course_class->class_code,
                 'name' => $course->name,
-                'semester_id' => $course_class->semester_id,
+                'semester' => $course_class->semester->semester,
                 'course_code' => $course_class->course_code,
-                'teacher_code' => $course_class->teacher_code,
+                'teacher_name' => $course_class->teacher->name,
                 'room' => $course_class->room,
                 'education_format' => $course_class->education_format,
                 'description' => $course_class->description,
@@ -76,6 +76,7 @@ class StudentController extends Controller
         }
 
         return response()->json([
+            'semester' => $currentSemester->semester,
             'course_classes' => $classes,
         ]);
     }
@@ -449,7 +450,12 @@ class StudentController extends Controller
     function showAttendanceByDay(Request $request)
     {
         $class_code = $request->class_code;
-        $day = $request->day ? $request->day : Carbon::today()->toDateString();
+        $day = $request->day;
+        if (Carbon::parse($day)->gt(Carbon::today())) {
+            return response()->json([
+                'message' => "Không tồn tại điểm danh",
+            ], 404);
+        }
         $user = Auth::user();
         $student = $user->students[0];
         $attendance = StudentsClasses::where('class_code', $class_code)
@@ -462,6 +468,11 @@ class StudentController extends Controller
         }
         $data = [];
         $attendance_by_day = $attendance->where('day', $day)->first();
+        if (empty($attendance_by_day)) {
+            return response()->json([
+                "message" => "Không tồn tại điểm danh",
+            ], 404);
+        }
         $data[] = [
             'id' => $attendance_by_day->id,
             'day' => $attendance_by_day->day,

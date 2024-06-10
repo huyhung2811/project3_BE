@@ -10,6 +10,7 @@ class Holiday extends Model
     use HasFactory;
 
     protected $table = 'holidays';
+    public $timestamps = false;
 
     protected $fillable = [
         'description',

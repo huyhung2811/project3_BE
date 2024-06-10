@@ -8,14 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\CourseClass;
 use App\Models\StudentAttendance;
-use Exception;
 
 class AttendanceController extends Controller
 {
-    public function makeAttendance(Request $request)
-    {
-    }
-
     public function showClassAttendance(Request $request)
     {
         $class_code = $request->class_code;

@@ -10,6 +10,7 @@ use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Common\CommonController;
+use App\Http\Controllers\DayOff\DayOffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,10 @@ Route::prefix('search')->middleware('auth:api')->controller(SearchController::cl
 Route::controller(AttendanceController::class)->prefix('attendance')->middleware('auth:api')->group(function(){
     Route::post('/','showClassAttendance')->name('class.attendance.show');
     Route::post('/update','updateStudentAttendance')->name('student.update.attendance');
+});
+
+Route::controller(DayOffController::class)->prefix('day-off')->middleware('auth:api')->group(function(){
+    Route::post('/create','storeDayOffRequest')->name('dayoff.store');
 });
 
 
