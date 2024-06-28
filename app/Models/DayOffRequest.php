@@ -17,7 +17,10 @@ class DayOffRequest extends Model
         'day',
         'created_day',
         'created_time',
-        'reason'
+        'updated_time',
+        'reason',
+        'status',
+        'is_read',
     ];
 
     public function students_classes()

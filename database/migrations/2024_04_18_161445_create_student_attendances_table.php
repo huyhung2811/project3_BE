@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('student_class_id');
             $table->foreign('student_class_id')->references('id')->on('students_classes')->onUpdate('cascade')->onDelete('cascade');
             $table->date('day');
-            $table->enum('status',['Đi học','Vắng','Đi muộn']);
+            $table->enum('status',['Đi học','Vắng','Đi muộn','Nghỉ có phép']);
         });
     }
 

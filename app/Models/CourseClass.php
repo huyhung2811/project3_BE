@@ -23,6 +23,11 @@ class CourseClass extends Model
         return $this->belongsTo(Semester::class,'semester_id');
     }
 
+    public function room()
+    {
+        return $this->belongsTo(Room::class,'room_id');
+    }
+
     public function students()
     {
         return $this->belongsToMany(Student::class, 'students_classes', 'class_code', 'student_code');

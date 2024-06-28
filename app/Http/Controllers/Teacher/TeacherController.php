@@ -25,7 +25,7 @@ class TeacherController extends Controller
                 'course_code' => $course_class->course_code,
                 'course_name' => $course->name,
                 'semester' => $course_class->scholastic . $course_class->semester,
-                'room' => $course_class->room,
+                'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                 'education_format' => $course_class->education_format,
                 'class_type' => $course_class->class_type,
                 'teacher_name' => $course_class->teacher->name,
@@ -101,7 +101,7 @@ class TeacherController extends Controller
                     'class_code' => $course_class->class_code,
                     'name' => $course->name,
                     'course_code' => $course_class->course_code,
-                    'room' => $course_class->room,
+                    'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                     'school_day' => $course_class->school_day,
                     'start_time' => $course_class->start_time,
                     'end_time' => $course_class->end_time,
@@ -177,7 +177,7 @@ class TeacherController extends Controller
                 'class_code' => $course_class->class_code,
                 'name' => $course->name,
                 'course_code' => $course_class->course_code,
-                'room' => $course_class->room,
+                'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                 'school_day' => $course_class->school_day,
                 'start_time' => $course_class->start_time,
                 'end_time' => $course_class->end_time,
@@ -212,7 +212,7 @@ class TeacherController extends Controller
                 'class_code' => $course_class->class_code,
                 'name' => $course->name,
                 'course_code' => $course_class->course_code,
-                'room' => $course_class->room,
+                'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                 'school_day' => $course_class->school_day,
                 'start_time' => $course_class->start_time,
                 'end_time' => $course_class->end_time,
@@ -220,6 +220,7 @@ class TeacherController extends Controller
         }
 
         return response()->json([
+            'semester' => $currentSemester->semester,
             'course_classes' => $classes,
         ]);
     }

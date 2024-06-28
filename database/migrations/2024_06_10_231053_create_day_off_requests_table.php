@@ -16,9 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger("student_class_id");
             $table->foreign('student_class_id')->references('id')->on('students_classes')->onUpdate('cascade')->onDelete('cascade');
             $table->date("day");
-            $table->date("created_day");
-            $table->time("created_time");
+            $table->datetime("created_time");
+            $table->datetime("updated_time");
             $table->string("reason");
+            $table->string("status");
+            $table->string("is_read");
+
         });
     }
 

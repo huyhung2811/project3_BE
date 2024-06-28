@@ -24,4 +24,9 @@ class Teacher extends Model
     {
         return $this->belongsTo(User::class,'email','email');
     }
+
+    public function getAvatarAttribute($value)
+    {
+        return $value ? $value : asset("assets/images/default_avatar.jpg");
+    }
 }

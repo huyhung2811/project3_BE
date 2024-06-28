@@ -11,42 +11,12 @@ use Tymon\JWTAuth\Facades\JWTAuth as Auth;
 use App\Models\EducationalSystem;
 use App\Models\Semester;
 use Illuminate\Support\Carbon;
-use App\Models\Holiday;
+use App\Models\Holiday; 
 use App\Models\StudentAttendance;
-
+use App\Models\DayOffRequest;
 
 class StudentController extends Controller
 {
-    public function showSchedule()
-    {
-        $user = Auth::user();
-        $student = $user->students[0];
-        $class = $student->class;
-        $system = EducationalSystem::find($class->system_id);
-        $schedules = [];
-        $course_classes = $student->course_classes;
-        foreach ($course_classes as $course_class) {
-            $course = $course_class->course;
-            $schedules[] = [
-                'class_code' => $course_class->class_code,
-                'course_code' => $course_class->course_code,
-                'course_name' => $course->name,
-                'semester' => $course_class->semester->semester,
-                'room' => $course_class->room,
-                'education_format' => $course_class->education_format,
-                'class_type' => $course_class->class_type,
-                'teacher_name' => $course_class->teacher->name,
-                'school_day' => $course_class->school_day,
-                'start_time' => $course_class->start_time,
-                'end_time' => $course_class->end_time,
-                'description' => $course_class->description,
-            ];
-        }
-        return response()->json([
-            'schedule' => $schedules,
-        ]);
-    }
-
     public function showCourseClass(Request $request)
     {
         $user = Auth::user();
@@ -65,7 +35,7 @@ class StudentController extends Controller
                 'semester' => $course_class->semester->semester,
                 'course_code' => $course_class->course_code,
                 'teacher_name' => $course_class->teacher->name,
-                'room' => $course_class->room,
+                'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                 'education_format' => $course_class->education_format,
                 'description' => $course_class->description,
                 'class_type' => $course_class->class_type,
@@ -144,13 +114,14 @@ class StudentController extends Controller
                 'message' => 'Không có lịch học',
             ], 404);
         }
+        //dd($classes_in_day);
         foreach ($classes_in_day as $course_class) {
             $course = $course_class->course;
             $schedule[] = [
                 'class_code' => $course_class->class_code,
                 'name' => $course->name,
                 'course_code' => $course_class->course_code,
-                'room' => $course_class->room,
+                'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                 'school_day' => $course_class->school_day,
                 'start_time' => $course_class->start_time,
                 'end_time' => $course_class->end_time,
@@ -226,7 +197,7 @@ class StudentController extends Controller
                     'class_code' => $course_class->class_code,
                     'name' => $course->name,
                     'course_code' => $course_class->course_code,
-                    'room' => $course_class->room,
+                    'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                     'school_day' => $course_class->school_day,
                     'start_time' => $course_class->start_time,
                     'end_time' => $course_class->end_time,
@@ -304,7 +275,7 @@ class StudentController extends Controller
                     'class_code' => $course_class->class_code,
                     'name' => $course->name,
                     'course_code' => $course_class->course_code,
-                    'room' => $course_class->room,
+                    'room' => $course_class->room ? $course_class->room->building."-".$course_class->room->room : null,
                     'school_day' => $course_class->school_day,
                     'start_time' => $course_class->start_time,
                     'end_time' => $course_class->end_time,
@@ -332,10 +303,27 @@ class StudentController extends Controller
 
         $students_classes = StudentsClasses::where('student_code', $student->student_code)
             ->where('class_code', $class_code)
-            ->get();
+            ->first();
+
+        $requestDayOff = DayOffRequest::where('student_class_id', $students_classes->id)
+            ->where('day', $day)->first();
+        
+        if($requestDayOff && $requestDayOff->status == "Duyệt") {
+            $data_student_attendance = [
+                'student_class_id' => $students_classes->id,
+                'day' => $day,
+                'status' => "Nghỉ có phép",
+            ];
+
+            if (StudentAttendance::create($data_student_attendance)) {
+                return response()->json([
+                    "message" => "Thêm điểm danh thành công",
+                ]);
+            }
+        }
 
         $data_student_attendance = [
-            'student_class_id' => $students_classes[0]->id,
+            'student_class_id' => $students_classes->id,
             'day' => $day,
             'status' => "Vắng",
         ];

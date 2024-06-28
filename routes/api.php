@@ -7,10 +7,14 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Search\SearchController;
 use App\Http\Controllers\Student\ProfileController as StudentProfileController;
 use App\Http\Controllers\Teacher\ProfileController as TeacherProfileController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\UserManager;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\DayOff\DayOffController;
+use App\Http\Controllers\Device\DeviceController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,13 +38,18 @@ Route::controller(CommonController::class)->middleware('auth:api')->group(functi
     Route::post('/teacher-details','showTeacherDetails')->name('teacher.details.show');
 });
 
+Route::prefix('admin')->middleware('auth:api')->group(function(){
+    Route::controller(AdminProfileController::class)->prefix('profile')->group(function () {
+        Route::get('/', 'profile')->name('admin.profile.show');
+    });
+});
+
 Route::prefix('student')->middleware(['auth:api','checkrole:student'])->group(function () {
     Route::controller(StudentProfileController::class)->prefix('profile')->group(function () {
         Route::get('/', 'profile')->name('student.profile.show');
         Route::put('/', 'update')->name('student.profile.update');
     });
     Route::controller(StudentController::class)->group(function(){
-        Route::get('/schedule', 'showSchedule')->name('student.schedule.show');
         Route::get('/course-class', 'showCourseClass')->name('student.course_class.show');
         Route::get('/class', 'showStudentClass')->name('student.student_class.show');
         Route::get('/schedule-in-day', 'showScheduleInDay')->name('student.schedule_in_day.show');
@@ -79,7 +88,24 @@ Route::controller(AttendanceController::class)->prefix('attendance')->middleware
 });
 
 Route::controller(DayOffController::class)->prefix('day-off')->middleware('auth:api')->group(function(){
+    Route::get('/show', 'showDayOffRequest')->name('dayoff.show');
     Route::post('/create','storeDayOffRequest')->name('dayoff.store');
+    Route::post('/change-is-read','changeIsReadRequest')->name('dayoff.is_read.change');
+    Route::get('/request-details','showRequestDetails')->name('dayoff.details.show');
+    Route::post('/change-request-status', 'updateRequestStatus')->name('dayoff.request_status.update');
+});
+
+Route::controller(DeviceController::class)->prefix('device')->group(function(){
+    Route::post('/check','checkDeviceStatus')->name('device.check');
+    Route::get('/show', 'showDevices')->middleware('auth:api')->name('devices.show');
+    Route::post('/update', 'updateDevice')->middleware('auth:api')->name('device.update');
+    Route::post('/delete', 'deleteDevice')->middleware('auth:api')->name('device.delete');
+});
+
+Route::controller(UserController::class)->prefix('user')->middleware('auth:api')->group(function(){
+    Route::get('/','getUserList')->name('users.list');
+    Route::post('/update', 'updateUser')->name('user.update');
+    Route::post('/delete', 'deleteUser')->name('user.delete');
 });
 
 

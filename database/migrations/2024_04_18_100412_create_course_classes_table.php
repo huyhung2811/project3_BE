@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('course_code')->references('course_code')->on('courses')->onUpdate('cascade')->onDelete('cascade');
             $table->string('teacher_code');
             $table->foreign('teacher_code')->references('teacher_code')->on('teachers')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('room')->nullable();
+            $table->unsignedBigInteger('room_id')->nullable();
+            $table->foreign('room_id')->references('id')->on('rooms')->onUpdate('cascade')->onDelete('cascade');
             $table->string('education_format')->nullable();
             $table->string('description')->nullable();
             $table->string('class_type')->nullable();

@@ -62,7 +62,7 @@ class CommonController extends Controller
             'school_day' => $course_class[0]->school_day,
             'start_time' => $course_class[0]->start_time,
             'end_time' => $course_class[0]->end_time,
-            'room' => $course_class[0]->room,
+            'room' => $course_class[0]->room ? $course_class[0]->room->building."-".$course_class[0]->room->room : null,
             'students' => $students,
             'students_number' => $course_class[0]->students->count(),
             'number_of_absenses' => -1,

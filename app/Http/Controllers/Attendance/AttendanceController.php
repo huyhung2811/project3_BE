@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\CourseClass;
 use App\Models\StudentAttendance;
+use PhpParser\Node\Expr\Empty_;
 
 class AttendanceController extends Controller
 {
@@ -27,16 +28,18 @@ class AttendanceController extends Controller
                 ->where('student_code', $student->student_code)
                 ->first()
                 ->student_attendances;
-            if (!empty($attendance)) {
+            if ($attendance) {
                 $attendance_by_day = $attendance->where('day', $day)->first();
-                $attendances[] = [
-                    'student' => $student,
-                    'class_attendance' => $attendance_by_day,
-                ];
+                if ($attendance_by_day) {
+                    $attendances[] = [
+                        'student' => $student,
+                        'class_attendance' => $attendance_by_day,
+                    ];
+                }
             }
         }
 
-        if (empty($attendances)) {
+        if (!$attendances) {
             return response()->json([
                 'message' => "Không tồn tại điểm danh",
             ], 404);
@@ -44,7 +47,7 @@ class AttendanceController extends Controller
 
         return response()->json([
             'attendances' => $attendances,
-        ]);
+        ], 200);
     }
 
     public function updateStudentAttendance(Request $request)

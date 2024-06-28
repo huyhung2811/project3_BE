@@ -14,6 +14,11 @@ class UserSeeder extends Seeder
     {
         $data = [
             [
+                'email' => 'admin@hust.edu.vn',
+                'password' => bcrypt('123456'),
+                'role' => 'admin',
+            ],
+            [
                 'email' => 'hung.lh194579@sis.hust.edu.vn',
                 'password' => bcrypt('123456'),
                 'role' => 'student',
