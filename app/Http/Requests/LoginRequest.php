@@ -25,7 +25,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required','email',],
-            'password' => 'required',
+            'password' => 'required|min:6',
         ];
     }
 
@@ -35,6 +35,7 @@ class LoginRequest extends FormRequest
             'email.required' =>'Bạn phải nhập email',
             'email.regex' => 'Bạn phải nhập email của nhà trường',
             'password.required' => 'Bạn phải nhập password',
+            'password.min' => 'Mật khẩu phải ít nhất 6 ký tự',
         ];
     }
 
