@@ -28,12 +28,12 @@ class AuthController extends Controller
 
         if (!$user) {
             return response()->json([
-                'error' => 'Email không tồn tại',
+                'email' => 'Email không tồn tại',
             ], 401);
         }
         if (!Hash::check($credentials['password'], $user->password)) {
             return response()->json([
-                'error' => 'Mật khẩu không chính xác'
+                'password' => 'Mật khẩu không chính xác'
             ], 401);
         }
 
