@@ -16,7 +16,7 @@ class CourseClassesSeeder extends Seeder
         $data = [
             [
                 'class_code' => 139959,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'MI1144',
                 'teacher_code' => 'TC6',
                 'room_id' => 32,
@@ -29,7 +29,7 @@ class CourseClassesSeeder extends Seeder
             ],
             [
                 'class_code' => 143700,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'IT5022',
                 'teacher_code' => 'TC1',
                 'room_id' => null,
@@ -42,7 +42,7 @@ class CourseClassesSeeder extends Seeder
             ],  
             [
                 'class_code' => 139956,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'MI1144',
                 'teacher_code' => 'TC7',
                 'room_id' => 29,
@@ -55,7 +55,7 @@ class CourseClassesSeeder extends Seeder
             ],  
             [
                 'class_code' => 736509,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'IT4948',
                 'teacher_code' => 'TC3',
                 'room_id' => null,
@@ -68,7 +68,7 @@ class CourseClassesSeeder extends Seeder
             ],
             [
                 'class_code' => 143527,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'IT4542',
                 'teacher_code' => 'TC4',
                 'room_id' => 22,
@@ -81,7 +81,7 @@ class CourseClassesSeeder extends Seeder
             ],
             [
                 'class_code' => 143528,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'IT3382',
                 'teacher_code' => 'TC5',
                 'room_id' => 53,
@@ -94,7 +94,7 @@ class CourseClassesSeeder extends Seeder
             ],
             [
                 'class_code' => 143525,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'IT4212',
                 'teacher_code' => 'TC1',
                 'room_id' => 31,
@@ -107,7 +107,7 @@ class CourseClassesSeeder extends Seeder
             ],
             [
                 'class_code' => 143521,
-                'semester_id' => 5,
+                'semester_id' => 6,
                 'course_code' => 'IT4652',
                 'teacher_code' => 'TC2',
                 'room_id' => 75,
@@ -120,7 +120,7 @@ class CourseClassesSeeder extends Seeder
             ],
             [
                 'class_code' => 143526,
-                'semester_id' => 4,
+                'semester_id' => 6,
                 'course_code' => 'IT4362',
                 'teacher_code' => 'TC8',
                 'room_id' => 31,
