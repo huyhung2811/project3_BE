@@ -24,7 +24,13 @@ class DayOffController extends Controller
         if (DayOffRequest::where('student_class_id', $student_class_id)->where('day', $request->day)->first()) {
             return response()->json([
                 'message' => 'Đã tồn tại yêu cầu',
-            ],422);
+            ], 422);
+        }
+
+        if (Carbon::parse($request->day)->lt(Carbon::today())) {
+            return response()->json([
+                'message' => 'Ngày nghỉ không hợp lệ, đã quá thời gian!',
+            ], 422);
         }
 
         $store = DayOffRequest::create([
@@ -48,16 +54,16 @@ class DayOffController extends Controller
     public function showDayOffRequest()
     {
         $user = Auth::user();
-        if($user->role == 'teacher') {
+        if ($user->role == 'teacher') {
             $teacher = Auth::user()->teachers->first();
             $course_classes = $teacher->course_classes;
         }
 
-        if($user->role == 'student') {
+        if ($user->role == 'student') {
             $student = Auth::user()->students->first();
             $course_classes = $student->course_classes;
         }
-        
+
         $student_classes = [];
         foreach ($course_classes as $course_class) {
             $student_classes[] = StudentsClasses::where('class_code', $course_class->class_code)->first();
@@ -85,7 +91,7 @@ class DayOffController extends Controller
             }
         }
 
-        usort($dayOffRequest, function($a, $b) {
+        usort($dayOffRequest, function ($a, $b) {
             return strtotime($b['created_time']) - strtotime($a['created_time']);
         });
 
@@ -97,14 +103,14 @@ class DayOffController extends Controller
     public function changeIsReadRequest(Request $request)
     {
         $id = $request->request_id;
-        if(Auth::user()->role == "teacher"){
+        if (Auth::user()->role == "teacher") {
             $is_changed = DayOffRequest::where('id', $id)->update(['is_read' => '1']);
             if ($is_changed) {
                 return response()->json([
                     'message' => 'Đã xem',
                 ], 200);
             }
-        }   
+        }
     }
 
     public function showRequestDetails(Request $request)
@@ -142,25 +148,38 @@ class DayOffController extends Controller
     {
         $id = $request->request_id;
         $updateTime = Carbon::now();
-        if (DayOffRequest::where('id', $id)->update(['status' => $request->status])) {
+
+        $details = DayOffRequest::where('id', $id)->first();
+        if (!$details) {
+            return response()->json([
+                'message' => 'Request not found',
+            ], 404);
+        }
+
+        $details->status = $request->status;
+        $details->updated_time = $updateTime;
+
+        if ($details->save()) {
             if ($request->status == "Duyệt") {
-                $details = DayOffRequest::where('id', $id)->first();
-                if ($details) {
-                    $attendance = StudentAttendance::where('student_class_id', $details->student_class_id)
-                        ->where('day', $details->day)
-                        ->first(); 
-                    if ($attendance) {
-                        $attendance->status = "Nghỉ có phép";
-                        $attendance->save();
-                    }
+                $attendance = StudentAttendance::where('student_class_id', $details->student_class_id)
+                    ->where('day', $details->day)
+                    ->first();
+                if ($attendance) {
+                    $attendance->status = "Nghỉ có phép";
+                    $attendance->save();
                 }
+                event(new DayOffResponsePusher('Duyệt'));
+            } elseif ($request->status == "Từ chối") {
+                event(new DayOffResponsePusher('Từ chối'));
             }
-            $details->updated_time = $updateTime;
-            $details->save();
-            event(new DayOffResponsePusher('Success'));
+
             return response()->json([
                 'message' => 'Success',
-            ]);
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Failed to update status',
+            ], 500);
         }
     }
 }

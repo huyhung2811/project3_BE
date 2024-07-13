@@ -52,7 +52,183 @@ class StudentsClassesSeeder extends Seeder
             ],
             [
                 'student_code' => 20194483,
+                'class_code' => 139959,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 143700,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 139956,
+            ],
+            [
+                'student_code' => 20194483,
                 'class_code' => 143521,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 736509,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 143527,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 143528,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 143525,
+            ],
+            [
+                'student_code' => 20194483,
+                'class_code' => 143526,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 139959,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 143700,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 139956,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 143521,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 736509,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 143527,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 143528,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 143525,
+            ],
+            [
+                'student_code' => 20194574,
+                'class_code' => 143526,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 139959,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 143700,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 139956,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 143521,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 736509,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 143527,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 143528,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 143525,
+            ],
+            [
+                'student_code' => 20194504,
+                'class_code' => 143526,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 139959,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 143700,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 139956,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 143521,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 736509,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 143527,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 143528,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 143525,
+            ],
+            [
+                'student_code' => 20194584,
+                'class_code' => 143526,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 139959,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 143700,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 139956,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 143521,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 736509,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 143527,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 143528,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 143525,
+            ],
+            [
+                'student_code' => 20194594,
+                'class_code' => 143526,
             ],
         ];
 

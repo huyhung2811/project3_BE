@@ -29,6 +29,26 @@ class UserSeeder extends Seeder
                 'role' => 'student',
             ],
             [
+                'email' => 'hoang.ph194574@sis.hust.edu.vn',
+                'password' => bcrypt('123456'),
+                'role' => 'student',
+            ],
+            [
+                'email' => 'dat.nt194504@sis.hust.edu.vn',
+                'password' => bcrypt('123456'),
+                'role' => 'student',
+            ],
+            [
+                'email' => 'hung.lt194584@sis.hust.edu.vn',
+                'password' => bcrypt('123456'),
+                'role' => 'student',
+            ],
+            [
+                'email' => 'khoa.ln194594@sis.hust.edu.vn',
+                'password' => bcrypt('123456'),
+                'role' => 'student',
+            ],
+            [
                 'email' => 'teacher1@hust.edu.vn',
                 'password' => bcrypt('123456'),
                 'role' => 'teacher',

@@ -20,12 +20,12 @@ class ClassSeeder extends Seeder
                 'system_id' => 6,
             ],
             [
-                'name' => 'Physics',
+                'name' => 'Application Specialist 02-K64',
                 'unit_id' => 2, 
                 'system_id' => 6,
             ],
             [
-                'name' => 'Chemistry',
+                'name' => 'Application Specialist 03-K64',
                 'unit_id' => 3,
                 'system_id' => 2,
             ],
