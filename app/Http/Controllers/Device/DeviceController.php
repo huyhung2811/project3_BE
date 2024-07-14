@@ -66,7 +66,7 @@ class DeviceController extends Controller
             $data[] = [
                 'id' => $device->id,
                 'MAC_address' => $device->MAC_address,
-                'room' => $device->room->building . "-" . $device->room->room,
+                'room' => $device->room ? $device->room->building . "-" . $device->room->room : "Không",
                 'updated_time' => $device->updated_time,
                 'status' => Carbon::parse($device->updated_time)->toDateString() === $currentDay ? 'active' : 'inactive',
             ];

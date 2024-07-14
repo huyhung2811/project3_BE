@@ -392,7 +392,6 @@ class StudentController extends Controller
 
             if (AttendanceTime::insert($data_attendance_time)) {
                 if ($time == null) {
-                    dd($time);
                     $status = "Vắng";
                     StudentAttendance::where('id', $student_attendance_id)->update(['status' => $status]);
                 }
